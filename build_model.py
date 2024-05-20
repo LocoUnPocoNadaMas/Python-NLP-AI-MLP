@@ -8,6 +8,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import tensorflow as tf
+
 from tensorflow.python.keras import models
 from tensorflow.python.keras import initializers
 from tensorflow.python.keras import regularizers
@@ -34,14 +36,16 @@ def mlp_model(layers, units, dropout_rate, input_shape, num_classes):
         An MLP model instance.
     """
     op_units, op_activation = _get_last_layer_units_and_activation(num_classes)
-    model = models.Sequential()
-    model.add(Dropout(rate=dropout_rate, input_shape=input_shape))
 
-    for _ in range(layers-1):
-        model.add(Dense(units=units, activation='relu'))
-        model.add(Dropout(rate=dropout_rate))
+    # Construye el modelo
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Flatten(input_shape=input_shape))
 
-    model.add(Dense(units=op_units, activation=op_activation))
+    for _ in range(layers):
+        model.add(tf.keras.layers.Dense(units, activation='relu'))
+        model.add(tf.keras.layers.Dropout(dropout_rate))
+
+    model.add(tf.keras.layers.Dense(num_classes, activation='softmax'))
     return model
 
 
