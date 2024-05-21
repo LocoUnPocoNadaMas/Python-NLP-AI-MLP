@@ -87,7 +87,7 @@ def plot_frequency_distribution_of_ngrams(sample_texts,
     vectorized_texts = vectorizer.fit_transform(sample_texts)
 
     # This is the list of all n-grams in the index order from the vocabulary.
-    all_ngrams = list(vectorizer.get_feature_names())
+    all_ngrams = list(vectorizer.get_feature_names_out())
     num_ngrams = min(num_ngrams, len(all_ngrams))
     # ngrams = all_ngrams[:num_ngrams]
 
