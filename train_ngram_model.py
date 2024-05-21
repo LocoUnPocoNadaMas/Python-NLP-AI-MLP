@@ -24,7 +24,7 @@ FLAGS = None
 
 
 def train_ngram_model(data,
-                      learning_rate=1e-3,
+                      learning_rate=1e-4,
                       epochs=1000,
                       batch_size=128,
                       layers=2,
@@ -63,7 +63,7 @@ def train_ngram_model(data,
         train_texts, train_labels, val_texts)
 
     # Create model instance.
-    model = build_model.mlp_model(layers=layers,
+    model = build_model.mlp_model(_layers=layers,
                                   units=units,
                                   dropout_rate=dropout_rate,
                                   input_shape=x_train.shape[1:],
@@ -98,7 +98,8 @@ def train_ngram_model(data,
             acc=history['val_acc'][-1], loss=history['val_loss'][-1]))
 
     # Save model.
-    model.save('imdb_mlp_model.h5')
+    #model.save('imdb_mlp_model.h5')
+    model.save('imdb_mlp_model0.keras')
     return history['val_acc'][-1], history['val_loss'][-1]
 
 
