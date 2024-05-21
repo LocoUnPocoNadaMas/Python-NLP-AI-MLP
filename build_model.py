@@ -8,11 +8,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
-
-from tensorflow.python.keras import models
-from tensorflow.python.keras import initializers
-from tensorflow.python.keras import regularizers
+from tensorflow.keras import models
+from tensorflow.keras import layers
+from tensorflow.keras import initializers
+from tensorflow.keras import regularizers
 
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout
@@ -22,7 +21,7 @@ from tensorflow.keras.layers import MaxPooling1D
 from tensorflow.keras.layers import GlobalAveragePooling1D
 
 
-def mlp_model(layers, units, dropout_rate, input_shape, num_classes):
+def mlp_model(_layers, units, dropout_rate, input_shape, num_classes):
     """Creates an instance of a multi-layer perceptron model.
 
     # Arguments
@@ -36,16 +35,14 @@ def mlp_model(layers, units, dropout_rate, input_shape, num_classes):
         An MLP model instance.
     """
     op_units, op_activation = _get_last_layer_units_and_activation(num_classes)
+    model = models.Sequential()
+    model.add(layers.Input(shape=input_shape))
 
-    # Construye el modelo
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Flatten(input_shape=input_shape))
+    for _ in range(_layers - 1):
+        model.add(Dense(units=units, activation='relu'))
+        model.add(Dropout(rate=dropout_rate))
 
-    for _ in range(layers):
-        model.add(tf.keras.layers.Dense(units, activation='relu'))
-        model.add(tf.keras.layers.Dropout(dropout_rate))
-
-    model.add(tf.keras.layers.Dense(num_classes, activation='softmax'))
+    model.add(Dense(units=op_units, activation=op_activation))
     return model
 
 
