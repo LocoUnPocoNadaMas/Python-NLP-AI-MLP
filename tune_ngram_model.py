@@ -38,18 +38,18 @@ def tune_ngram_model(data):
     # Iterate over all parameter combinations.
     for layers in num_layers:
         for units in num_units:
-                params['layers'].append(layers)
-                params['units'].append(units)
+            params['layers'].append(layers)
+            params['units'].append(units)
 
-                accuracy, _ = train_ngram_model.train_ngram_model(
-                    data=data,
-                    layers=layers,
-                    units=units)
-                print(('Accuracy: {accuracy}, Parameters: (layers={layers}, '
-                       'units={units})').format(accuracy=accuracy,
-                                                layers=layers,
-                                                units=units))
-                params['accuracy'].append(accuracy)
+            accuracy, _ = train_ngram_model.train_ngram_model(
+                data=data,
+                layers=layers,
+                units=units)
+            print(('Accuracy: {accuracy}, Parameters: (layers={layers}, '
+                   'units={units})').format(accuracy=accuracy,
+                                            layers=layers,
+                                            units=units))
+            params['accuracy'].append(accuracy)
     _plot_parameters(params)
 
 
